@@ -19,34 +19,42 @@ function Formulario() {
 
 
     function validarDatos(Nombre, nombre,Apellido,apellido) {
-        if (Nombre == ""|| Nombre.length <3 || Nombre.length >=20 ) {          
+        if (Nombre.trim() == ""|| Nombre.trim().length <3 || Nombre.trim().length >=20 ) {          
             setMensajeAlerta("El " + nombre  + " no debe estar vacio y debe tener como maximo 20 caracteres .");
             setTipoAlerta("danger");
             setMostrarAlerta(true);
             return false;
-        }else if (Apellido == ""|| Apellido.length <3 || Apellido.length >=20){
-            setMensajeAlerta("El" + apellido + "no debe estar vacio y debe tener como maximo 20 caracteres")
+        }else if(Apellido.trim() == ""|| Apellido.trim().length <3 || Apellido.trim().length >=20){
+            setMensajeAlerta("El " + apellido + " no debe estar vacio y debe tener como maximo 20 caracteres")
+            setTipoAlerta("danger");
+            setMostrarAlerta(true);
+            return false
         }else{
             return true;
         }
     }   
 
 
-    function validarRut(Rut,rut,DV,dv) {
-        if (Rut == "") {
-            setMensajeAlerta("El " + rut + "no puede estar vacio ")
+    function validarRut(Rut, rut, DV, dv) {
+
+
+        const valido = DV.toUpperCase();
+
+        const verificador = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "K"]
+        if (Rut.trim() == "") {
+            setMensajeAlerta("El " + rut + " no puede estar vacio ")
             setTipoAlerta("danger");
             setMostrarAlerta(true);
             return false
-        }else if (DV == "" || DV.length >1){
-            setMensajeAlerta("El " + dv + "no puede estar vacio y no puede superar 1 caracter")
+        } else if (DV.trim() == "" || DV.trim().length > 1 || !verificador.includes(valido)) {
+            setMensajeAlerta("El " + dv + " no puede estar vacio y no puede superar 1 caracter y debe ser dentro de un rango de 1 a 9 o la letra K")
             setTipoAlerta("danger");
             setMostrarAlerta(true);
             return false;
-        }else {
+        } else {
             return true;
         }
-        
+
     }
 
     function validarFecha(Fecha) {
@@ -84,8 +92,8 @@ function Formulario() {
 }
 
     function validarCorreo(Correo,correo) {
-        if (Correo == ""||Correo,length <5|| Correo.length >100 ) {
-            setMensajeAlerta("El " + correo + "no puede estar vacio y no puede superar los 100 caracteres")
+        if (Correo == ""||Correo.trim().length <5|| Correo.trim().length >100 ) {
+            setMensajeAlerta("El " + correo + " no puede estar vacio y no puede superar los 100 caracteres")
             setTipoAlerta("danger");
             setMostrarAlerta(true);
             return false
@@ -97,8 +105,8 @@ function Formulario() {
     }
 
     function validartelefono(Telefono,telefono) {
-        if (Telefono == ""||Telefono,length <8|| Telefono.length >10 ) {
-            setMensajeAlerta("El " + telefono + "no puede estar vacio y no puede superar los 10 caracteres")
+        if (Telefono == ""||Telefono.trim().length <8|| Telefono.trim().length >10 ) {
+            setMensajeAlerta("El " + telefono + " no puede estar vacio y no puede superar los 10 caracteres")
             setTipoAlerta("danger");
             setMostrarAlerta(true);
             return false
@@ -111,8 +119,8 @@ function Formulario() {
 
 
     function validardireccion(Direccion,direccion) {
-        if (Direccion == ""||Direccion,length <5|| Direccion.length >100 ) {
-            setMensajeAlerta("La " + direccion + "no puede estar vacio y no puede superar los 100 caracteres")
+        if (Direccion == ""||Direccion.trim().length <5|| Direccion.trim().length >100 ) {
+            setMensajeAlerta("La " + direccion + " no puede estar vacio y no puede superar los 100 caracteres")
             setTipoAlerta("danger");
             setMostrarAlerta(true);
             return false
@@ -143,9 +151,20 @@ function Formulario() {
         }else if (validardireccion(txtdireccion,"direccion") == false) {
             return
         }else {
-            setTipoAlerta("sucess");
+            setMensajeAlerta("Registro Exitoso!!!")
+            setTipoAlerta("success");
             setMostrarAlerta(true);
             console.log("Guardando");
+
+
+            setTxtnombre("");
+            setTxtapellido("");
+            setTxtrut("");
+            setTxtDv("");
+            setTxtfecha("");
+            setTxtcorreo("");
+            setTxttelefono("");
+            setTxtdireccion("");
             
         }
         
@@ -161,48 +180,49 @@ function Formulario() {
         <div className="row mt-3 mx-3">
             
 
-            <div className="col-12">
+            <div className="col-12 text-center mb-2">
                 <h1>Formulario</h1>
+                <p>Ingrese sus datos</p>
             </div>
 
             <div className="col-6">
                 <label htmlFor="txtNombre" >Nombre </label>
-                <input  onChange ={(e) => setTxtnombre(e.target.value)}type="text" className="form-control" id="txtNombre" />
+                <input  onChange ={(e) => setTxtnombre(e.target.value)}type="text" className="form-control" id="txtNombre" placeholder="Moka" value={txtnombre} />
             </div>
 
             <div className="col-6">
                 <label htmlFor="txtApellido" >Apellido </label>
-                <input onChange ={(e) => setTxtapellido(e.target.value)}type="text" className="form-control" id="txtApellido" />
+                <input onChange ={(e) => setTxtapellido(e.target.value)}type="text" className="form-control" id="txtApellido" placeholder="Sakai" value={txtapellido}/>
             </div>
 
             <div className="col-6">
                 <label htmlFor="txtRut" >Rut </label>
-                <input  onChange ={(e) => setTxtrut(e.target.value)}type="text" className="form-control" id="txtRut" />
+                <input  onChange ={(e) => setTxtrut(e.target.value)}type="text" className="form-control" id="txtRut" placeholder="20.162.535" value={txtrut}/>
             </div>
 
             <div className="col-6">
                 <label htmlFor="txtDv" >Digito Verificador </label>
-                <input  onChange ={(e) => setTxtDv(e.target.value)}type="text" className="form-control" id="txtDv" />
+                <input  onChange ={(e) => setTxtDv(e.target.value)}type="text" className="form-control" id="txtDv" placeholder="1-9-K" value={txtDv} />
             </div>
 
             <div className="col-6">
                 <label htmlFor="txtFecha" >Fecha de Nacimiento </label>
-                <input  onChange ={(e) => setTxtfecha(e.target.value)}type="date" className="form-control" id="txtFecha" />
+                <input  onChange ={(e) => setTxtfecha(e.target.value)}type="date" className="form-control" id="txtFecha" value={txtfecha} />
             </div>
 
             <div className="col-6">
                 <label htmlFor="txtCorreo" >Correo Electronico </label>
-                <input   onChange ={(e) => setTxtcorreo(e.target.value)}type="text" className="form-control" id="txtCorreo" />
+                <input   onChange ={(e) => setTxtcorreo(e.target.value)}type="text" className="form-control" id="txtCorreo" placeholder="mokasakai1234@gmail.com" value={txtcorreo}/>
             </div>
 
             <div className="col-6">
-                <label htmlFor="txtTelefono" >Telefono </label>
-                <input  onChange ={(e) => setTxttelefono(e.target.value)} type="text" className="form-control" id="txtTelefono" />
+                <label htmlFor="txtTelefono" >Teléfono </label>
+                <input  onChange ={(e) => setTxttelefono(e.target.value)} type="text" className="form-control" id="txtTelefono" placeholder="912341256" value={txttelefono}/>
             </div>
 
             <div className="col-6">
                 <label htmlFor="txtDireccion" >Direccion </label>
-                <input   onChange ={(e) => setTxtdireccion(e.target.value)}type="text" className="form-control" id="txtDireccion" />
+                <input   onChange ={(e) => setTxtdireccion(e.target.value)}type="text" className="form-control" id="txtDireccion" placeholder="Avenida Siempre Viva" value={txtdireccion} />
             </div>
 
 
